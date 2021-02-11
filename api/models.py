@@ -1,5 +1,5 @@
 from django.db import models
-from django.core.validators import *
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 # Unused imports from webserver lab...
 # from __future__ import unicode_literals
