@@ -6,8 +6,8 @@ router = routers.DefaultRouter(trailing_slash=False)
 
 urlpatterns = [
     path('dogs/<int:pk>/', controllers.DogDetail.as_view()),
-    path(r'^dogs', controllers.DogList.as_view()),
+    path('dogs', controllers.DogList.as_view()),
     # path('breeds/<int:pk>/', controllers.BreedDetail.as_view()),
     # path('breeds', controllers.BreedList.as_view()),
-    path(r'^', include(router.urls)),
+    path('', include(router.urls)),
 ]
