@@ -5,6 +5,8 @@ from rest_framework.response import Response
 from rest_framework import status
 
 # Dog routes
+# Converting from previous webserver lab style to what's found here...
+# https://www.django-rest-framework.org/tutorial/3-class-based-views/
 
 
 class DogDetail(APIView):
@@ -28,9 +30,15 @@ class DogList(APIView):
 
     def get(self, request, format=None):
         dogs = Dog.objects.all()
-        # dogs = Dog.objects.all().filter(name = request.name)
-        serializer = DogSerializer(dogs)
+        serializer = DogSerializer(dogs, many=True)
         return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = DogSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     # def post(self, request, *args, **kwargs):
     #     print 'REQUEST DATA'
