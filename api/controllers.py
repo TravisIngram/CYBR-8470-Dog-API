@@ -53,8 +53,8 @@ class DogList(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    # Breed routes
 
+# Breed routes
 
 class BreedDetail(APIView):
 
@@ -68,6 +68,19 @@ class BreedDetail(APIView):
         breed = self.get_object(pk)
         serializer = BreedSerializer(breed)
         return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        breed = self.get_object(pk)
+        serializer = BreedSerializer(breed, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        breed = self.get_object(pk)
+        breed.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 # Get all breeds in DB or create / add a new one
